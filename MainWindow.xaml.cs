@@ -28,8 +28,8 @@ namespace ReView
             double y;
             for (var i = 0; i < 40; i++)
             {
-                x = rnd.Next(10,200);
-                y = rnd.Next(10,200);
+                x = rnd.Next(30,200);
+                y = rnd.Next(30,200);
                 Wrap.Children.Add(new Rectangle
                 {
                     Width = x,
@@ -40,11 +40,20 @@ namespace ReView
                 });
             }
 
-            Wrap.Children.Add(new Image {            });// Need to add attributes for adding images. 
+            Wrap.Children.Add(new Image
+            {
+               Source = new BitmapImage(new Uri("C:/Users/rudy_/source/repos/ReView/Images/grzegorz-rakowski-kmdcTVJMrhc-unsplash.jpg"))
+                                        });
 
 
         }
 
         private static Random rnd = new Random();
     }
+
+    public class iBox : Image// may or may not need this.
+    {
+
+    }
+
 }

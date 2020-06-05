@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ReView"
         mc:Ignorable="d"
         Title="RedditViewer" Height="450" Width="800" Icon="1.png">
+    <ScrollViewer>
     <WrapPanel x:Name="Wrap" Background="#FF252526" >
         <WrapPanel.Resources>
             <Style TargetType="{x:Type Image}">
@@ -15,4 +16,5 @@
             </Style>
         </WrapPanel.Resources>
     </WrapPanel>
+    </ScrollViewer>
 </Window>
