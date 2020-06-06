@@ -6,15 +6,38 @@
         xmlns:local="clr-namespace:ReView"
         mc:Ignorable="d"
         Title="RedditViewer" Height="450" Width="800" Icon="1.png">
-    <ScrollViewer>
-    <WrapPanel x:Name="Wrap" Background="#FF252526" >
-        <WrapPanel.Resources>
-            <Style TargetType="{x:Type Image}">
-                <Setter Property="Margin" Value =" 5,5"/>
-                <Setter Property="VerticalAlignment" Value ="Center"/>
-                <Setter Property="HorizontalAlignment" Value ="Center"/>
-            </Style>
-        </WrapPanel.Resources>
-    </WrapPanel>
-    </ScrollViewer>
+    <DockPanel>
+        <Canvas DockPanel.Dock="Left" RenderTransformOrigin="0.5,0.5" MinWidth="20" Background="#FF2D2D30" HorizontalAlignment="Left" Width="50">
+            <Canvas.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Canvas.RenderTransform>
+            <CheckBox x:Name="checkBox" Content="" Height="35" Width="48">
+                <CheckBox.Background>
+                    <ImageBrush/>
+                </CheckBox.Background>
+            </CheckBox>
+            <StackPanel Canvas.Top="40" Width="48" Height="369"/>
+
+        </Canvas>
+        <ScrollViewer DockPanel.Dock="Right">
+            <WrapPanel x:Name="Wrap" Background="#FF252526">
+                <WrapPanel.Resources>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Margin" Value =" 5,5"/>
+                        <Setter Property="VerticalAlignment" Value ="Center"/>
+                        <Setter Property="HorizontalAlignment" Value ="Center"/>
+                        <Setter Property="MaxWidth" Value="500"/>
+                        
+
+
+                    </Style>
+                </WrapPanel.Resources>
+            </WrapPanel>
+        </ScrollViewer>
+    </DockPanel>
 </Window>

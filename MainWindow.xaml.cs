@@ -32,6 +32,8 @@ namespace ReView
 
             Console.WriteLine(SourceDirectory);
 
+
+            // should add threading for this section.
             for (var i = 0; i < 40; i++)
             {
                 x = rnd.Next(30,200);
@@ -48,20 +50,35 @@ namespace ReView
            // Going to use a for each {elem} to put all images from the folder into the app. to see what happens.
             foreach (string path in ImagesList)
              {
-                Wrap.Children.Add(new Image //lol, need to compress this got big fast.
-                {
-                    Source = new BitmapImage(new Uri(path))
-                });
+                Wrap.Children.Add(AddImage(path));
             }
 
 
         }
         private static Random rnd = new Random();
+
+
+        public Image AddImage(string path)// Using this function to adjust setting of bitmap prior to adding image to display.
+        {
+            Uri Loc = new Uri(path);
+            BitmapImage bitty = new BitmapImage();
+
+
+            bitty.BeginInit();
+            bitty.UriSource = Loc;
+            bitty.DecodePixelWidth = 1000; // I should add a public variable that adjusts this, so user can set quality levels.
+            bitty.EndInit();
+
+
+            Image localImage = new Image();
+            localImage.Source = bitty;
+            return localImage;
+        }
     }
-
-    public class iBox : Image// may or may not need this.
+ 
+    public class iBox// using this to create images to push into the wrap above.
     {
-
+       
     }
 
 }
