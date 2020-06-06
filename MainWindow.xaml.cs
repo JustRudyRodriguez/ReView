@@ -48,10 +48,10 @@ namespace ReView
            // Going to use a for each {elem} to put all images from the folder into the app. to see what happens.
             foreach (string path in ImagesList)
              {
-                 Wrap.Children.Add(new Image //lol, need to compress this got big fast.
-                 {
-                     Source = new BitmapImage(new Uri(path))
-                 });
+                Wrap.Children.Add(new Image //lol, need to compress this got big fast.
+                {
+                    Source = new BitmapImage(new Uri(path))
+                });
             }
 
 
