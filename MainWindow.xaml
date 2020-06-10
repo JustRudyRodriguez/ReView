@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ReView"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Loaded="Window_Loaded"
         Title="RedditViewer" Height="450" Width="800" Icon="1.png">
     <DockPanel>
-        <Canvas DockPanel.Dock="Left" RenderTransformOrigin="0.5,0.5" MinWidth="20" Background="#FF2D2D30" HorizontalAlignment="Left" Width="50">
+        <Canvas x:Name="SidePanel" DockPanel.Dock="Left" RenderTransformOrigin="0.5,0.5" MinWidth="20" Background="#FF2D2D30" HorizontalAlignment="Left" Width="50">
             <Canvas.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="-1"/>
@@ -16,7 +16,7 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Canvas.RenderTransform>
-            <CheckBox x:Name="checkBox" Content="" Height="35" Width="48">
+            <CheckBox x:Name="Bigbox" Content="" Height="35" Width="48"> 
                 <CheckBox.Background>
                     <ImageBrush/>
                 </CheckBox.Background>

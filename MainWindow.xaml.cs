@@ -21,39 +21,37 @@ namespace ReView
     /// </summary>
     public partial class MainWindow : Window
     {
+
+
+        string SourceDirectory = System.IO.Path.GetFullPath(@"..\..\") + "Images";//Gets the path I actually want.
         public MainWindow()
         {
             InitializeComponent();
-
-            double x;
-            double y;
-            string SourceDirectory = System.IO.Path.GetFullPath(@"..\..\")+"Images";//Gets the path I actually want.
-            var ImagesList = Directory.EnumerateFiles(SourceDirectory);//I can add a search filter here, to only accept specific file types. (SourceDirectory, "*.png") only takes pngs.
-
-            Console.WriteLine(SourceDirectory);
+            ApiHelper.InitializeClient();
 
 
-            // should add threading for this section.
-            for (var i = 0; i < 40; i++)
-            {
-                x = rnd.Next(30,200);
-                y = rnd.Next(30,200);
-                Wrap.Children.Add(new Rectangle
-                {
-                    Width = x,
-                    Height = y,
-                    StrokeThickness = 1,
-                    Stroke = new SolidColorBrush(Colors.Black),
-                    Margin = new Thickness(5)
-                });
-            }
-           // Going to use a for each {elem} to put all images from the folder into the app. to see what happens.
-            foreach (string path in ImagesList)
-             {
-                Wrap.Children.Add(AddImage(path));
-            }
 
 
+
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadImages();
+        }
+
+        private async Task LoadImages(int number = 25)
+        {
+            var MyImage = await ImageGrabber.LoadImage("pictures", number);
+                   
+            Uri MyUri = new Uri(MyImage.Data.Children[0].Data.Url);
+
+            BitmapImage Mybitty = new BitmapImage(MyUri);
+            Image ImageSource = new Image();
+            ImageSource.Source = Mybitty;
+
+            Wrap.Children.Add(ImageSource);
+            
         }
         private static Random rnd = new Random();
 
@@ -76,9 +74,5 @@ namespace ReView
         }
     }
  
-    public class iBox// using this to create images to push into the wrap above.
-    {
-       
-    }
 
 }
