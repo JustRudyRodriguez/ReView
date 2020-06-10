@@ -15,7 +15,7 @@ namespace ReView
         {
             ApiClient = new HttpClient();//Kinda acts like a web browser, can support multiple tabs.
 
-            ApiClient.BaseAddress = new Uri("https://www.reddit.com");
+            ApiClient.BaseAddress = new Uri("https://www.reddit.com");//Not necessary currently.
             ApiClient.DefaultRequestHeaders.Accept.Clear();//clears header before assigning one.
             ApiClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));// sets header to ask for only Json Data.
 

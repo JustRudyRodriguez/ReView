@@ -13,14 +13,17 @@ namespace ReView
         static public async Task<ImageModel> LoadImage(string SubReddit, int amount) // The async allows this to be somewhat threaded. And the Task does somethign like that as well.
         {
 
-            // Uri MyUrl = ApiHelper.ApiClient.BaseAddress; may be unnessecary.
+            if (amount > 100){ //reddit has a cap of 100 requests.
+                amount = 100;
+            }
 
-            string myUrl = $"https://www.reddit.com/r/pictures/new.json?limit={amount}";
-            Console.WriteLine(myUrl);// just for testing.
+            string myUrl = $"https://www.reddit.com/r/{SubReddit}/new.json?limit={amount}"; //implements the subreddit and poll amount into url for call.
+            Console.WriteLine("Pinged Url is: " + myUrl);// just for testing.
 
-            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(myUrl))//Makes call to url and awaits response, closes calls after bracket closes.
+            //By using "using" we can ensure that the port closes after it completes the call to the website.
+            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(myUrl))//Makes an async GET request to the URL, and stores it as a HTTP response message.
             {
-                if (response.IsSuccessStatusCode)//Checks if reply was a good reply.
+                if (response.IsSuccessStatusCode)//Checks status code from response for a OK.
                 {
                     ImageModel currentImage = await response.Content.ReadAsAsync<ImageModel>();//ReadasAsync-Converts Json Into ImageModel, based on imagemodel properties
 

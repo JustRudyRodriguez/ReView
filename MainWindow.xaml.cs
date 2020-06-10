@@ -27,36 +27,35 @@ namespace ReView
         public MainWindow()
         {
             InitializeComponent();
-            ApiHelper.InitializeClient();
-
-
-
-
+            ApiHelper.InitializeClient();//Opens a client to access the internet.
 
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)// Begins logic, after main window opens.
         {
             await LoadImages();
         }
 
-        private async Task LoadImages(int number = 25)
+        private async Task LoadImages(int number = 99)//Begins to request images from Reddit. Also Loads them into the app. Async threads it.
         {
-            var MyImage = await ImageGrabber.LoadImage("pictures", number);
-                   
-            Uri MyUri = new Uri(MyImage.Data.Children[0].Data.Url);
+            var ImageSet = await ImageGrabber.LoadImage("Pics", number);//Gets the Json info that contains the URL's to the images we're looking for. Returns an ImageModel class
 
-            BitmapImage Mybitty = new BitmapImage(MyUri);
-            Image ImageSource = new Image();
-            ImageSource.Source = Mybitty;
+            for (int i = 0; i < number; i++)// Itterates based on how many images should be in Imageset.
+            {
 
-            Wrap.Children.Add(ImageSource);
-            
+              
+                Uri MyUri = new Uri(ImageSet.Data.Children[i].Data.Url);//Pulls the URL from the JSON we acquired 
+
+                BitmapImage Mybitty = new BitmapImage(MyUri); //Assigns Url to bitmap 
+                Image ImageSource = new Image();//Creates new image
+                ImageSource.Source = Mybitty;//Assigns Bitmap to image.
+
+                Wrap.Children.Add(ImageSource);//Adds to UI.
+            }
         }
-        private static Random rnd = new Random();
 
 
-        public Image AddImage(string path)// Using this function to adjust setting of bitmap prior to adding image to display.
+        public Image AddImage(string path)// Using this function to adjust setting of bitmap prior to adding image to display. Currently not in use, old version.
         {
             Uri Loc = new Uri(path);
             BitmapImage bitty = new BitmapImage();
