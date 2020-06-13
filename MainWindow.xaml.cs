@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using System.Runtime.Remoting;
 
 namespace ReView
 {
@@ -21,9 +24,9 @@ namespace ReView
     /// </summary>
     public partial class MainWindow : Window
     {
+        string RedditType = "pics";
 
-
-        string SourceDirectory = System.IO.Path.GetFullPath(@"..\..\") + "Images";//Gets the path I actually want.
+        string SourceDirectory = System.IO.Path.GetFullPath(@"..\..\") + "Images";//Was used when grabbing images from local disk, in testing.
         public MainWindow()
         {
             InitializeComponent();
@@ -36,22 +39,53 @@ namespace ReView
             await LoadImages();
         }
 
-        private async Task LoadImages(int number = 99)//Begins to request images from Reddit. Also Loads them into the app. Async threads it.
+        async void OnClick0(object sender, RoutedEventArgs e) {
+            Wrap.Children.Clear(); //Garbage collection handles purging the objects from memory... I think.
+            RedditType = Custom.Text;
+            await LoadImages(25, Custom.Text);
+        
+        }
+        async void OnClick1(object sender, RoutedEventArgs e)
         {
-            var ImageSet = await ImageGrabber.LoadImage("Pics", number);//Gets the Json info that contains the URL's to the images we're looking for. Returns an ImageModel class
+            Wrap.Children.Clear();
+            await LoadImages(25,RedditType,"top");
+
+        }
+        async void OnClick2(object sender, RoutedEventArgs e)
+        {
+            Wrap.Children.Clear();
+            await LoadImages(25, RedditType, "new");
+        }
+        async void OnClick3(object sender, RoutedEventArgs e)
+        {
+            Wrap.Children.Clear();
+            await LoadImages(25, RedditType, "hot");
+        }
+
+        private async Task LoadImages(int number = 25,String Subreddit = "pics", String type = "hot")//Begins to request images from Reddit. Also Loads them into the app. Async threads it.
+        {
+            var ImageSet = await ImageGrabber.LoadImage(Subreddit,type, number);//Gets the Json info that contains the URL's to the images we're looking for. Returns an ImageModel class
 
             for (int i = 0; i < number; i++)// Itterates based on how many images should be in Imageset.
             {
-
-              
+               // if (ImageSet.Data.Children[i].Data.Url == Regex for Png/jpg), some sudo for a filter I should Add.
+                
                 Uri MyUri = new Uri(ImageSet.Data.Children[i].Data.Url);//Pulls the URL from the JSON we acquired 
 
-                BitmapImage Mybitty = new BitmapImage(MyUri); //Assigns Url to bitmap 
+
+                BitmapImage Mybitty = new BitmapImage(); //Assigns Url to bitmap 
+                Mybitty.BeginInit(); //Tunes settings of Bitmap
+                Mybitty.UriSource = MyUri;
+                Mybitty.CacheOption = BitmapCacheOption.OnDemand;//This should load the images more effeciently.
+                Mybitty.DecodePixelWidth = 400;
+
+                Mybitty.EndInit();//finalized settings
                 Image ImageSource = new Image();//Creates new image
                 ImageSource.Source = Mybitty;//Assigns Bitmap to image.
 
                 Wrap.Children.Add(ImageSource);//Adds to UI.
             }
+
         }
 
 

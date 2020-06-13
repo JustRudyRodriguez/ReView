@@ -10,14 +10,14 @@ namespace ReView
 {
     static public class ImageGrabber
     {
-        static public async Task<ImageModel> LoadImage(string SubReddit, int amount) // The async allows this to be somewhat threaded. And the Task does somethign like that as well.
+        static public async Task<ImageModel> LoadImage(string SubReddit,string Type, int amount) // The async allows this to be somewhat threaded. And the Task does somethign like that as well.
         {
 
             if (amount > 100){ //reddit has a cap of 100 requests.
                 amount = 100;
             }
 
-            string myUrl = $"https://www.reddit.com/r/{SubReddit}/new.json?limit={amount}"; //implements the subreddit and poll amount into url for call.
+            string myUrl = $"https://www.reddit.com/r/{SubReddit}/{Type}.json?limit={amount}"; //implements the subreddit and poll amount into url for call.
             Console.WriteLine("Pinged Url is: " + myUrl);// just for testing.
 
             //By using "using" we can ensure that the port closes after it completes the call to the website.

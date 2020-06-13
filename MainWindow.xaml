@@ -7,32 +7,25 @@
         mc:Ignorable="d" Loaded="Window_Loaded"
         Title="RedditViewer" Height="450" Width="800" Icon="1.png">
     <DockPanel>
-        <Canvas x:Name="SidePanel" DockPanel.Dock="Left" RenderTransformOrigin="0.5,0.5" MinWidth="20" Background="#FF2D2D30" HorizontalAlignment="Left" Width="50">
-            <Canvas.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Canvas.RenderTransform>
-            <CheckBox x:Name="Bigbox" Content="" Height="35" Width="48"> 
-                <CheckBox.Background>
-                    <ImageBrush/>
-                </CheckBox.Background>
-            </CheckBox>
-            <StackPanel Canvas.Top="40" Width="48" Height="369"/>
-
-        </Canvas>
-        <ScrollViewer DockPanel.Dock="Right">
-            <WrapPanel x:Name="Wrap" Background="#FF252526">
+        <StackPanel Width="40" Background="#FF2D2D30">
+            <DockPanel>
+                <Button x:Name="RedditSelector" Click="OnClick0" FontSize="8" Background="#FF686868" Foreground="#FF2D2D30" DockPanel.Dock="Top">SubReddit</Button>
+                <TextBox x:Name="Custom" Background="#FF686868"></TextBox>
+                
+            </DockPanel>
+            <Button x:Name="SetTop" Click="OnClick1">Top</Button>
+            <Button x:Name="SetNew" Click="OnClick2">New</Button>
+            <Button x:Name="SetHop" Click="OnClick3">Hot</Button>
+        </StackPanel>
+        <ScrollViewer>
+            <WrapPanel x:Name="Wrap" Background="#FF252526" ScrollViewer.CanContentScroll="True" DockPanel.Dock="Right">
                 <WrapPanel.Resources>
                     <Style TargetType="{x:Type Image}">
                         <Setter Property="Margin" Value =" 5,5"/>
                         <Setter Property="VerticalAlignment" Value ="Center"/>
                         <Setter Property="HorizontalAlignment" Value ="Center"/>
                         <Setter Property="MaxWidth" Value="500"/>
-                        
+
 
 
                     </Style>
