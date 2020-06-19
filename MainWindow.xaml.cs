@@ -39,22 +39,35 @@ namespace ReView
             await LoadImages();
         }
 
-        async void OnClick0(object sender, RoutedEventArgs e) {
+        async void OnClick0(object sender, RoutedEventArgs e)
+        {
             Wrap.Children.Clear(); //Garbage collection handles purging the objects from memory... I think.
             RedditType = Custom.Text;
-            await LoadImages(25, Custom.Text);
-        
+
+            try // incase the subreddit being selected doesn't exist. 
+            {
+                await LoadImages(25, Custom.Text);
+            }
+            catch (Exception)// a Popup to inform the user should be displayed here. Maybe even wiggling the button with a red outline.
+            {
+                RedditType = "pics";// adding this as a reset to a known good value, preventing other possible errors.
+            }
+
         }
         async void OnClick1(object sender, RoutedEventArgs e)
         {
             Wrap.Children.Clear();
-            await LoadImages(25,RedditType,"top");
+            await LoadImages(25, RedditType, "top");
 
         }
         async void OnClick2(object sender, RoutedEventArgs e)
         {
             Wrap.Children.Clear();
+
+
             await LoadImages(25, RedditType, "new");
+
+
         }
         async void OnClick3(object sender, RoutedEventArgs e)
         {
@@ -62,14 +75,24 @@ namespace ReView
             await LoadImages(25, RedditType, "hot");
         }
 
-        private async Task LoadImages(int number = 25,String Subreddit = "pics", String type = "hot")//Begins to request images from Reddit. Also Loads them into the app. Async threads it.
+        void Movement(object sender, RoutedEventArgs e)
         {
-            var ImageSet = await ImageGrabber.LoadImage(Subreddit,type, number);//Gets the Json info that contains the URL's to the images we're looking for. Returns an ImageModel class
+            if(ScrollIt.VerticalOffset >= (ScrollIt.ScrollableHeight * .80))// Checks if user is near at 80 percent of the page. to load more.
+            {
+                //This is calling when i want it to, but is calling too frequently. I need to add some sort of flag to prevent this from calling a function a bunch of times.
+            }
+        }
+
+
+        private async Task LoadImages(int number = 25, String Subreddit = "pics", String type = "hot")//Begins to request images from Reddit. Also Loads them into the app. Async threads it.
+        {
+            var ImageSet = await ImageGrabber.LoadImage(Subreddit, type, number);//Gets the Json info that contains the URL's to the images we're looking for. Returns an ImageModel class
 
             for (int i = 0; i < number; i++)// Itterates based on how many images should be in Imageset.
             {
-               // if (ImageSet.Data.Children[i].Data.Url == Regex for Png/jpg), some sudo for a filter I should Add.
-                
+                // if (ImageSet.Data.Children[i].Data.Url == Regex for Png/jpg), some sudo for a filter I should Add. Doesn't seem to be needed honestly, but could mitigate useless web calls.
+
+
                 Uri MyUri = new Uri(ImageSet.Data.Children[i].Data.Url);//Pulls the URL from the JSON we acquired 
 
 
@@ -85,7 +108,7 @@ namespace ReView
 
                 Wrap.Children.Add(ImageSource);//Adds to UI.
             }
-
+            Console.WriteLine("test");// to be deleted eventually.
         }
 
 
@@ -106,6 +129,6 @@ namespace ReView
             return localImage;
         }
     }
- 
+
 
 }

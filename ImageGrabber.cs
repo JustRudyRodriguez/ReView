@@ -27,11 +27,21 @@ namespace ReView
                 {
                     ImageModel currentImage = await response.Content.ReadAsAsync<ImageModel>();//ReadasAsync-Converts Json Into ImageModel, based on imagemodel properties
 
-                    return currentImage;
+                    if (currentImage.Data.dist == 0)// checks for false positive 404's.
+                    {
+                        Console.WriteLine("Subreddit Not found");// for testing.
+                        throw new ArgumentNullException();
+                    }
+                    else
+                    {
+                        return currentImage;
+                    }
+
+
                 }
                 else
                 {
-                    throw new Exception(response.ReasonPhrase);//Gives an error if there is a issue grabbing data.
+                    throw new Exception(response.ReasonPhrase);//Gives an error if there is a issue grabbing data. like 404.
                 }
 
             }
