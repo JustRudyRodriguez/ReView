@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ErrorCode.cs" />
     <Compile Include="SubData.cs" />
     <Compile Include="TheUrl.cs" />
     <Page Include="MainWindow.xaml">

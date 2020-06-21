@@ -28,6 +28,7 @@ namespace ReView
                     ImageModel ImageJson= await response.Content.ReadAsAsync<ImageModel>();//ReadasAsync-Converts Json Into ImageModel, based on imagemodel properties
                     Console.WriteLine(ImageJson.message);// Need to further test this. But trying to grab a fake 404 here when reddit isn't found.
 
+<<<<<<< HEAD
                     return ImageJson;
                 }
                 else
@@ -35,6 +36,23 @@ namespace ReView
                     Console.WriteLine(response.ReasonPhrase);
                     throw new Exception(response.ReasonPhrase);//Gives an error if there is a issue grabbing data.
 
+=======
+                    if (currentImage.Data.dist == 0)// checks for false positive 404's.
+                    {
+                        Console.WriteLine("Subreddit Not found");// for testing.
+                        throw new ArgumentNullException();
+                    }
+                    else
+                    {
+                        return currentImage;
+                    }
+
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);//Gives an error if there is a issue grabbing data. like 404.
+>>>>>>> d4b1e6009d9e57353b395527eeb9589010e24370
                 }
 
             }

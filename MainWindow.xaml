@@ -17,7 +17,7 @@
             <Button x:Name="SetNew" Click="OnClick2">New</Button>
             <Button x:Name="SetHop" Click="OnClick3">Hot</Button>
         </StackPanel>
-        <ScrollViewer>
+        <ScrollViewer x:Name="ScrollIt" ScrollChanged="Movement">
             <WrapPanel x:Name="Wrap" Background="#FF252526" ScrollViewer.CanContentScroll="True" DockPanel.Dock="Right">
                 <WrapPanel.Resources>
                     <Style TargetType="{x:Type Image}">
