@@ -25,17 +25,52 @@ namespace ReView
             {
                 if (response.IsSuccessStatusCode)//Checks status code from response for a OK.
                 {
-                    ImageModel currentImage = await response.Content.ReadAsAsync<ImageModel>();//ReadasAsync-Converts Json Into ImageModel, based on imagemodel properties
+                    ImageModel ImageJson= await response.Content.ReadAsAsync<ImageModel>();//ReadasAsync-Converts Json Into ImageModel, based on imagemodel properties
+                    Console.WriteLine(ImageJson.message);// Need to further test this. But trying to grab a fake 404 here when reddit isn't found.
 
-                    return currentImage;
+                    return ImageJson;
                 }
                 else
                 {
+                    Console.WriteLine(response.ReasonPhrase);
                     throw new Exception(response.ReasonPhrase);//Gives an error if there is a issue grabbing data.
+
                 }
 
             }
              
         }
+        static public async Task<ImageModel> LoadImage(string Subreddit, string Type, int amount, string after) {
+
+            // similar to function above, but for loading past the first page.
+            if (amount > 100)
+            { //reddit has a cap of 100 requests.
+                amount = 100;
+            }
+
+            string myUrl = $"https://www.reddit.com/r/{Subreddit}/{Type}.json?limit={amount}&after={after}";
+            Console.WriteLine("Pinged Url is: " + myUrl);
+
+            using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(myUrl))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    ImageModel ImageJson = await response.Content.ReadAsAsync<ImageModel>();
+                    Console.WriteLine(ImageJson.message);
+
+                    return ImageJson;
+                }
+                else
+                {
+                    Console.WriteLine(response.ReasonPhrase);
+                    throw new Exception(response.ReasonPhrase);
+
+                }
+
+            }
+
+
+        }
+
     }
 }

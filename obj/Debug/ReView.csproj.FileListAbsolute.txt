@@ -37,3 +37,8 @@ C:\Users\rudy_\source\repos\ReView\bin\Debug\System.Net.Http.Formatting.dll
 C:\Users\rudy_\source\repos\ReView\bin\Debug\Newtonsoft.Json.xml
 C:\Users\rudy_\source\repos\ReView\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\rudy_\source\repos\ReView\obj\Debug\ReView.csproj.CopyComplete
+C:\Users\Rudy\source\repos\JustRudyRodriguez\ReView\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Rudy\source\repos\JustRudyRodriguez\ReView\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Rudy\source\repos\JustRudyRodriguez\ReView\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Rudy\source\repos\JustRudyRodriguez\ReView\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Rudy\source\repos\JustRudyRodriguez\ReView\obj\Debug\ReView.csproj.CopyComplete

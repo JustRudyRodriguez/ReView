@@ -42,8 +42,15 @@ namespace ReView
         async void OnClick0(object sender, RoutedEventArgs e) {
             Wrap.Children.Clear(); //Garbage collection handles purging the objects from memory... I think.
             RedditType = Custom.Text;
-            await LoadImages(25, Custom.Text);
-        
+            try
+            {
+                await LoadImages(25, Custom.Text);
+            }
+
+             catch
+          {
+                Console.WriteLine("bad URL");
+          }
         }
         async void OnClick1(object sender, RoutedEventArgs e)
         {

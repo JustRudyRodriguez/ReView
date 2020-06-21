@@ -8,7 +8,10 @@ namespace ReView
 {
     public class ImageModelChildren
     {
+
+        public int Dist { get; set; } 
         public SubData[] Children { get; set; }
+
 
     }
 }
