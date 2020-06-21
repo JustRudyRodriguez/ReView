@@ -43,17 +43,6 @@ namespace ReView
         {
             Wrap.Children.Clear(); //Garbage collection handles purging the objects from memory... I think.
             RedditType = Custom.Text;
-<<<<<<< HEAD
-            try
-            {
-                await LoadImages(25, Custom.Text);
-            }
-
-             catch
-          {
-                Console.WriteLine("bad URL");
-          }
-=======
 
             try // incase the subreddit being selected doesn't exist. 
             {
@@ -64,7 +53,6 @@ namespace ReView
                 RedditType = "pics";// adding this as a reset to a known good value, preventing other possible errors.
             }
 
->>>>>>> d4b1e6009d9e57353b395527eeb9589010e24370
         }
         async void OnClick1(object sender, RoutedEventArgs e)
         {
