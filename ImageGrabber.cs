@@ -25,12 +25,12 @@ namespace ReView
             {
                 if (response.IsSuccessStatusCode)//Checks status code from response for a OK.
                 {
-                    ImageModel ImageJson= await response.Content.ReadAsAsync<ImageModel>();//ReadasAsync-Converts Json Into ImageModel, based on imagemodel properties
+                    ImageModel ImageJson= await response.Content.ReadAsAsync<ImageModel>(); //ReadasAsync-Converts Json Into ImageModel, based on imagemodel properties
                     Console.WriteLine(ImageJson.message);// Need to further test this. But trying to grab a fake 404 here when reddit isn't found.
 
-                    if (ImageJson.Data.Dist == 0)// checks for false positive 404's.
-                    {
-                        Console.WriteLine("Subreddit Not found");// for testing.
+                    if (ImageJson.Data.Dist == 0) // checks for false positive 404's.
+                    { 
+                        Console.WriteLine("Subreddit Not found"); // for testing.
                         throw new ArgumentNullException();
                     }
                     else
@@ -41,8 +41,8 @@ namespace ReView
 
                 }
                 else
-                {
-                    throw new Exception(response.ReasonPhrase);//Gives an error if there is a issue grabbing data. like 404.
+                { 
+                    throw new Exception(response.ReasonPhrase);  //Gives an error if there is a issue grabbing data. like 404.
                 }
 
             }

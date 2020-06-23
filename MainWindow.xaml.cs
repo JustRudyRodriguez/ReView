@@ -25,8 +25,10 @@ namespace ReView
     public partial class MainWindow : Window
     {
         string RedditType = "pics";
-
+        double ScrollLimit = .80;
         string SourceDirectory = System.IO.Path.GetFullPath(@"..\..\") + "Images";//Was used when grabbing images from local disk, in testing.
+        string LastPost;
+        bool Loading= false;
         public MainWindow()
         {
             InitializeComponent();
@@ -46,7 +48,10 @@ namespace ReView
 
             try // incase the subreddit being selected doesn't exist. 
             {
+                ScrollIt.ScrollToVerticalOffset(0);
                 await LoadImages(25, Custom.Text);
+                ScrollLimit = .80;
+
             }
             catch (Exception)// a Popup to inform the user should be displayed here. Maybe even wiggling the button with a red outline.
             {
@@ -58,7 +63,8 @@ namespace ReView
         {
             Wrap.Children.Clear();
             await LoadImages(25, RedditType, "top");
-
+            ScrollIt.ScrollToVerticalOffset(0);
+            ScrollLimit = .80;
         }
         async void OnClick2(object sender, RoutedEventArgs e)
         {
@@ -66,29 +72,54 @@ namespace ReView
 
 
             await LoadImages(25, RedditType, "new");
-
-
+            ScrollIt.ScrollToVerticalOffset(0);
+            ScrollLimit = .80;
         }
         async void OnClick3(object sender, RoutedEventArgs e)
         {
             Wrap.Children.Clear();
             await LoadImages(25, RedditType, "hot");
+            ScrollIt.ScrollToVerticalOffset(0);
+            ScrollLimit = .80;
         }
 
-        void Movement(object sender, RoutedEventArgs e)
+        async void Movement(object sender, RoutedEventArgs e)
         {
-            if(ScrollIt.VerticalOffset >= (ScrollIt.ScrollableHeight * .80))// Checks if user is near at 80 percent of the page. to load more.
+            if(ScrollIt.VerticalOffset >= (ScrollIt.ScrollableHeight * ScrollLimit ) && ScrollIt.VerticalOffset !=0 && !Loading )// Checks if user is near at 80 percent of the page. to load more.
             {
-                //This is calling when i want it to, but is calling too frequently. I need to add some sort of flag to prevent this from calling a function a bunch of times.
+                Loading = true;
+                await LoadImages(25, RedditType, "hot", LastPost);
+                
+                ScrollLimit = .90; // After first page it will now start loading more at 90%. May need to write a method to do this further.
+
+                 //This is calling when i want it to, but is calling too frequently. I need to add some sort of flag to prevent this from calling a function a bunch of times.
             }
         }
-
-
-        private async Task LoadImages(int number = 25, String Subreddit = "pics", String type = "hot")//Begins to request images from Reddit. Also Loads them into the app. Async threads it.
+        void ImageClick(object sender, RoutedEventArgs e) 
         {
-            var ImageSet = await ImageGrabber.LoadImage(Subreddit, type, number);//Gets the Json info that contains the URL's to the images we're looking for. Returns an ImageModel class
+            Grid.SetZIndex(CenterFold, 2);
+            Console.WriteLine("image has been clicked"); // need to adjust these lines to load the image I want. just placeholder honestly
+            Image Biggy = (Image)sender;
+            var test = (BitmapImage)Biggy.Source;
+            
+        }
 
-            for (int i = 0; i < number; i++)// Itterates based on how many images should be in Imageset.
+        void ExitFull(object sender, RoutedEventArgs e) {
+            Grid.SetZIndex(CenterFold, 0);
+        }
+
+
+        private async Task LoadImages(int number = 25, String Subreddit = "pics", String type = "hot" , String After = null)//Begins to request images from Reddit. Also Loads them into the app. Async threads it.
+        {
+
+            ImageModel ImageSet;    //Gets the Json info that contains the URL's to the images we're looking for. Returns an ImageModel class
+            if (After == null)
+            { ImageSet = await ImageGrabber.LoadImage(Subreddit, type, number); }
+            else {
+                ImageSet = await ImageGrabber.LoadImage(Subreddit, type, number,After);
+            }
+
+            for (int i = 0; i < ImageSet.Data.Dist; i++)// Itterates based on how many images should be in Imageset.
             {
                 // if (ImageSet.Data.Children[i].Data.Url == Regex for Png/jpg), some sudo for a filter I should Add. Doesn't seem to be needed honestly, but could mitigate useless web calls.
 
@@ -105,10 +136,14 @@ namespace ReView
                 Mybitty.EndInit();//finalized settings
                 Image ImageSource = new Image();//Creates new image
                 ImageSource.Source = Mybitty;//Assigns Bitmap to image.
+                
+                ImageSource.Tag = ImageSet.Data.Children[i].Data.Name; // grabs the Name of the post. useful for later. May need to store a bunch of shit here.
 
+                // var tangle = new Rectangle,I want rounded corners on images. To do this, I need to make rectangles and load images into them. wrap.children[i].add(image) may work.
                 Wrap.Children.Add(ImageSource);//Adds to UI.
             }
-            Console.WriteLine("test");// to be deleted eventually.
+            Loading = false;
+            LastPost = ImageSet.Data.Children[ImageSet.Data.Dist-1].Data.Name;
         }
 
 

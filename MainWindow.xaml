@@ -6,31 +6,38 @@
         xmlns:local="clr-namespace:ReView"
         mc:Ignorable="d" Loaded="Window_Loaded"
         Title="RedditViewer" Height="450" Width="800" Icon="1.png">
-    <DockPanel>
-        <StackPanel Width="40" Background="#FF2D2D30">
-            <DockPanel>
-                <Button x:Name="RedditSelector" Click="OnClick0" FontSize="8" Background="#FF686868" Foreground="#FF2D2D30" DockPanel.Dock="Top">SubReddit</Button>
-                <TextBox x:Name="Custom" Background="#FF686868"></TextBox>
-                
-            </DockPanel>
-            <Button x:Name="SetTop" Click="OnClick1">Top</Button>
-            <Button x:Name="SetNew" Click="OnClick2">New</Button>
-            <Button x:Name="SetHop" Click="OnClick3">Hot</Button>
-        </StackPanel>
-        <ScrollViewer x:Name="ScrollIt" ScrollChanged="Movement">
-            <WrapPanel x:Name="Wrap" Background="#FF252526" ScrollViewer.CanContentScroll="True" DockPanel.Dock="Right">
-                <WrapPanel.Resources>
-                    <Style TargetType="{x:Type Image}">
-                        <Setter Property="Margin" Value =" 5,5"/>
-                        <Setter Property="VerticalAlignment" Value ="Center"/>
-                        <Setter Property="HorizontalAlignment" Value ="Center"/>
-                        <Setter Property="MaxWidth" Value="500"/>
+    <Grid x:Name="Top">
+        <Grid Panel.ZIndex="0" Background="#991A1A1A" x:Name="CenterFold" >
+            <Image Grid.Column="0"  Grid.Row="0" Margin="45" x:Name="ZoomeImage"></Image>
+            <Button Margin="751,10,10,377" Background="#FFDDDDDD" Click="ExitFull" Panel.ZIndex="15"/>
+        </Grid>
+        <DockPanel Grid.Column="0" Grid.Row="0" Panel.ZIndex="1">
 
+            <StackPanel Width="40" Background="#FF2D2D30">
+                <DockPanel>
+                    <Button x:Name="RedditSelector" Click="OnClick0" FontSize="8" Background="#FF686868" Foreground="#FF2D2D30" DockPanel.Dock="Top">SubReddit</Button>
+                    <TextBox x:Name="Custom" Background="#FF686868"></TextBox>
 
+                </DockPanel>
+                <Button x:Name="SetTop" Click="OnClick1">Top</Button>
+                <Button x:Name="SetNew" Click="OnClick2">New</Button>
+                <Button x:Name="SetHop" Click="OnClick3">Hot</Button>
+            </StackPanel>
+            <ScrollViewer x:Name="ScrollIt" ScrollChanged="Movement">
+                <WrapPanel x:Name="Wrap" Background="#FF252526" ScrollViewer.CanContentScroll="True" DockPanel.Dock="Right">
+                    <WrapPanel.Resources>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Margin" Value =" 5,5"/>
+                            <Setter Property="VerticalAlignment" Value ="Center"/>
+                            <Setter Property="HorizontalAlignment" Value ="Center"/>
+                            <Setter Property="MaxWidth" Value="500"/>
+                            <EventSetter Event="MouseLeftButtonUp" Handler="ImageClick"/>
+                        </Style>
 
-                    </Style>
-                </WrapPanel.Resources>
-            </WrapPanel>
-        </ScrollViewer>
-    </DockPanel>
+                    </WrapPanel.Resources>
+
+                </WrapPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
 </Window>
