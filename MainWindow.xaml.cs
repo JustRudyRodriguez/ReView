@@ -29,6 +29,10 @@ namespace ReView
         string SourceDirectory = System.IO.Path.GetFullPath(@"..\..\") + "Images";//Was used when grabbing images from local disk, in testing.
         string LastPost;
         bool Loading= false;
+
+        Image Holder;
+        BitmapImage BitHolder;
+        Uri URIHolder;
         public MainWindow()
         {
             InitializeComponent();
@@ -41,7 +45,7 @@ namespace ReView
             await LoadImages();
         }
 
-        async void OnClick0(object sender, RoutedEventArgs e)
+        async void OnClick0(object sender =null, RoutedEventArgs e=null)
         {
             Wrap.Children.Clear(); //Garbage collection handles purging the objects from memory... I think.
             RedditType = Custom.Text;
@@ -58,6 +62,14 @@ namespace ReView
                 RedditType = "pics";// adding this as a reset to a known good value, preventing other possible errors.
             }
 
+        }
+
+        void OnKeyDownHandler(object Sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Return)
+            {
+                this.OnClick0();
+            }
         }
         async void OnClick1(object sender, RoutedEventArgs e)
         {
@@ -99,9 +111,19 @@ namespace ReView
         {
             Grid.SetZIndex(CenterFold, 2);
             Console.WriteLine("image has been clicked"); // need to adjust these lines to load the image I want. just placeholder honestly
-            Image Biggy = (Image)sender;
-            var test = (BitmapImage)Biggy.Source;
+
+            Holder = (Image)sender;
+            BitHolder = (BitmapImage)Holder.Source;
+            URIHolder = BitHolder.UriSource;
+
             
+            BitHolder = new BitmapImage();
+            BitHolder.BeginInit();
+            BitHolder.UriSource = URIHolder;
+            BitHolder.CacheOption = BitmapCacheOption.OnDemand;
+            BitHolder.EndInit();
+
+            ZoomImage.Source = BitHolder;
         }
 
         void ExitFull(object sender, RoutedEventArgs e) {
@@ -162,6 +184,11 @@ namespace ReView
             Image localImage = new Image();
             localImage.Source = bitty;
             return localImage;
+        }
+
+        private void Custom_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 

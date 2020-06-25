@@ -5,18 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ReView"
         mc:Ignorable="d" Loaded="Window_Loaded"
-        Title="RedditViewer" Height="450" Width="800" Icon="1.png">
+        Title="RedditViewer" Height="706.125" Width="926" Icon="1.png">
     <Grid x:Name="Top">
         <Grid Panel.ZIndex="0" Background="#991A1A1A" x:Name="CenterFold" >
-            <Image Grid.Column="0"  Grid.Row="0" Margin="45" x:Name="ZoomeImage"></Image>
-            <Button Margin="751,10,10,377" Background="#FFDDDDDD" Click="ExitFull" Panel.ZIndex="15"/>
+            <Image Grid.Column="0"  Grid.Row="0" Margin="45" x:Name="ZoomImage"></Image>
+            <Button Click="ExitFull" Margin="0,47,45,0" HorizontalAlignment="Right" Width="45" Height="47" VerticalAlignment="Top" Foreground="{x:Null}" BorderBrush="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="Exit Image.png"/>
+                </Button.Background>
+            </Button>
         </Grid>
         <DockPanel Grid.Column="0" Grid.Row="0" Panel.ZIndex="1">
 
             <StackPanel Width="40" Background="#FF2D2D30">
                 <DockPanel>
                     <Button x:Name="RedditSelector" Click="OnClick0" FontSize="8" Background="#FF686868" Foreground="#FF2D2D30" DockPanel.Dock="Top">SubReddit</Button>
-                    <TextBox x:Name="Custom" Background="#FF686868"></TextBox>
+                    <TextBox x:Name="Custom" Background="#FF686868" TextChanged="Custom_TextChanged" KeyDown="OnKeyDownHandler" />
+
+
 
                 </DockPanel>
                 <Button x:Name="SetTop" Click="OnClick1">Top</Button>
